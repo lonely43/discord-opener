@@ -6,6 +6,6 @@ use paths_mod::paths_manager;
 fn main() {
     println!("Hello, world!");
 
-    let paths = paths_manager::get_paths();
-    print!("{}", paths.unwrap().zapret)
+    let paths = paths_manager::get_paths().unwrap();
+    print!("{}", paths.zapret)
 }
