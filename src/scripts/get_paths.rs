@@ -1,3 +1,5 @@
+#[allow(dead_code)]
+
 pub mod paths_manager {
    use std::io::{self, Write};
    
