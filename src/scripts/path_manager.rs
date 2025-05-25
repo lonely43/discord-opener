@@ -1,5 +1,3 @@
-#[allow(dead_code)]
-
 pub mod paths_manager {
    use std::io::{self, Write};
    
@@ -25,7 +23,8 @@ pub mod paths_manager {
       }
 
       paths.discord = get_path("Enter global path for Discord: ")?;
-      paths.zapret = get_path("Enter global path for Zapret-Discord: ")?;
+      paths.zapret = r"C:\Users\UglyASF\Desktop\test.txt".to_string(); // for test
+      //get_path("Enter global path for Zapret-Discord: ")?;
 
       Ok(paths)
    }
