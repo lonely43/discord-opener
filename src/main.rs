@@ -1,5 +1,7 @@
+mod scripts;
 mod app;
+use app::init;
 
 fn main() {
-    app::init();
+   init();
 }
