@@ -1,9 +1,7 @@
 use std::io::{ self, Write };
-
-use crate::scripts::write_read_json::get_paths_from_file;
 use crate::models::Paths;
 
-fn prompt_paths() -> Result<Paths, io::Error> {
+pub fn prompt_paths() -> Result<Paths, io::Error> {
    let mut paths = Paths {
       discord_path: String::new(),
       zapret_path: String::new(),
@@ -24,11 +22,4 @@ fn prompt_paths() -> Result<Paths, io::Error> {
    //paths.zapret_path  = r"C:\Users\Iliya\Desktop\test.txt".to_string(); // for test
 
    Ok(paths)
-}
-
-pub fn get_paths() -> Result<Paths, io::Error> {
-   match get_paths_from_file() {
-      Ok(paths) => Ok(paths),
-      Err(_e) => prompt_paths(),
-   }
 }

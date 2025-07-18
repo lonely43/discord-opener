@@ -1,8 +1,9 @@
 mod models;
-mod scripts;
+mod config;
+mod lib;
 
 use crate::models::Paths;
-use crate::scripts::path_manager::get_paths;
+use crate::lib::get_paths;
 
 fn main() {
    init();
