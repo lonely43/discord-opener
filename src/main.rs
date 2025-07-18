@@ -1,13 +1,30 @@
+mod models;
 mod scripts;
-mod app;
 
-use scripts::path_manager::Paths;
+use crate::models::Paths;
+use crate::scripts::path_manager::get_paths;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-   // app::init();
-   let paths: Paths = scripts::path_manager::get_paths_from_file()?;
+fn main() {
+   init();
+}
 
-   println!("Discord path: {}", paths.discord_path);
-   println!("Zapret path: {}", paths.zapret_path);
-   Ok(())
+pub fn init() {
+   match get_paths() {
+      Ok(paths) => start(&paths),
+      Err(e) => eprintln!("Failed to get paths: {}", e),
+   }
+}
+
+fn start(paths: &Paths) {
+   std::process::Command
+      ::new("cmd")
+      .args(["/C", "start", &paths.zapret_path])
+      .spawn()
+      .expect("Failed to open file");
+
+   std::process::Command
+      ::new("cmd")
+      .args(["/C", "start", &paths.discord_path])
+      .spawn()
+      .expect("Failed to open file");
 }
