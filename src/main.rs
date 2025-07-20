@@ -1,9 +1,11 @@
 mod models;
 mod config;
-mod lib;
+mod app;
+
+use serde::de::value;
 
 use crate::models::Paths;
-use crate::lib::get_paths;
+use crate::app::get_paths;
 
 fn main() {
    init();

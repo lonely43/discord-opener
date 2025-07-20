@@ -1,6 +1,6 @@
-use serde::{ Deserialize }; //Serialize
+use serde::{ Deserialize, Serialize };
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Paths {
    pub discord_path: String,
    pub zapret_path: String,
