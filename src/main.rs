@@ -2,8 +2,6 @@ mod models;
 mod config;
 mod app;
 
-use serde::de::value;
-
 use crate::models::Paths;
 use crate::app::get_paths;
 
