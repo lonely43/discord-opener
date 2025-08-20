@@ -1,23 +1,41 @@
-use crate::config::{get_paths_from_file, is_path_exist, prompt_paths, set_paths_to_file};
-use crate::models::Paths;
+use std::{ path::PathBuf, fs::File };
 
-pub fn get_paths() -> Result<Paths, std::io::Error> {
-    match is_path_exist("./src/paths.json") {
-        Ok(true) => match get_paths_from_file() {
-            Ok(paths) => Ok(paths),
-            _ => {
-                println!("Failed to get paths from cfg");
-                ask_for_paths()
-            }
-        },
-        _ => ask_for_paths(),
-    }
+use anyhow::{ Context, Ok, Result };
+use serde::{ Deserialize, Serialize };
+
+use crate::prompt::onboarding;
+
+#[derive(Serialize, Deserialize)]
+pub struct Paths {
+   pub discord_path: PathBuf,
+   pub zapret_path: PathBuf,
 }
 
-fn ask_for_paths() -> Result<Paths, std::io::Error> {
-    let paths: Paths = prompt_paths()?;
+impl Paths {
+   fn get_config_path() -> Result<PathBuf> {
+      Ok(
+         std::env
+            ::home_dir()
+            .with_context(|| "no user's home folder found.".to_string())?
+            .join("discord-opener-paths.json")
+      )
+   }
 
-    set_paths_to_file(&paths);
+   pub fn get() -> Result<Self> {
+      let config_path = Self::get_config_path()?;
 
-    Ok(paths)
+      if config_path.exists() {
+         let file = File::open(config_path)?;
+         let paths: Paths = serde_json::from_reader(file)?;
+
+         Ok(paths)
+      } else {
+        let paths: Paths = onboarding()?;
+
+        let file = File::create(config_path)?;
+        serde_json::to_writer_pretty(file, &paths)?;
+
+        Ok(paths)
+      }
+   }
 }
